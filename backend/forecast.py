@@ -361,3 +361,173 @@ def get_available_crops():
         list: List of available crop names
     """
     return [crop.title() for crop in forecaster.get_available_crops()]
+def get_t
+op_performers(current_month=None, forecast_months=6, top_n=5):
+    """
+    Get top N performing crops based on predicted price growth.
+    
+    Args:
+        current_month (int): Current month (1-12)
+        forecast_months (int): Number of months to forecast
+        top_n (int): Number of top performers to return
+        
+    Returns:
+        list: Top performing crops with growth metrics
+    """
+    if current_month is None:
+        current_month = datetime.now().month
+    
+    performance_data = []
+    available_crops = forecaster.get_available_crops()
+    
+    for crop in available_crops:
+        try:
+            # Get current price and predictions
+            crop_info = forecaster.get_crop_info(crop)
+            if not crop_info:
+                continue
+                
+            current_price = crop_info['latest_price']
+            predictions = forecaster.predict_future_prices(crop, current_month, forecast_months)
+            
+            if not predictions:
+                continue
+            
+            # Calculate growth metrics
+            final_price = predictions[-1]
+            total_growth = ((final_price - current_price) / current_price) * 100
+            avg_monthly_growth = total_growth / forecast_months
+            
+            # Calculate price volatility (standard deviation of predictions)
+            price_volatility = np.std(predictions) if len(predictions) > 1 else 0
+            
+            performance_data.append({
+                "crop_name": crop.title(),
+                "current_price": round(current_price, 2),
+                "predicted_final_price": round(final_price, 2),
+                "total_growth_percent": round(total_growth, 2),
+                "avg_monthly_growth_percent": round(avg_monthly_growth, 2),
+                "price_volatility": round(price_volatility, 2),
+                "forecast_months": forecast_months,
+                "predicted_prices": [round(p, 2) for p in predictions]
+            })
+            
+        except Exception as e:
+            print(f"Error calculating performance for {crop}: {str(e)}")
+            continue
+    
+    # Sort by total growth percentage (descending)
+    performance_data.sort(key=lambda x: x['total_growth_percent'], reverse=True)
+    
+    return performance_data[:top_n]
+
+def get_bottom_performers(current_month=None, forecast_months=6, bottom_n=5):
+    """
+    Get bottom N performing crops based on predicted price growth.
+    
+    Args:
+        current_month (int): Current month (1-12)
+        forecast_months (int): Number of months to forecast
+        bottom_n (int): Number of bottom performers to return
+        
+    Returns:
+        list: Bottom performing crops with growth metrics
+    """
+    if current_month is None:
+        current_month = datetime.now().month
+    
+    performance_data = []
+    available_crops = forecaster.get_available_crops()
+    
+    for crop in available_crops:
+        try:
+            # Get current price and predictions
+            crop_info = forecaster.get_crop_info(crop)
+            if not crop_info:
+                continue
+                
+            current_price = crop_info['latest_price']
+            predictions = forecaster.predict_future_prices(crop, current_month, forecast_months)
+            
+            if not predictions:
+                continue
+            
+            # Calculate growth metrics
+            final_price = predictions[-1]
+            total_growth = ((final_price - current_price) / current_price) * 100
+            avg_monthly_growth = total_growth / forecast_months
+            
+            # Calculate price volatility
+            price_volatility = np.std(predictions) if len(predictions) > 1 else 0
+            
+            # Calculate risk score (higher volatility = higher risk)
+            risk_score = price_volatility / current_price * 100 if current_price > 0 else 0
+            
+            performance_data.append({
+                "crop_name": crop.title(),
+                "current_price": round(current_price, 2),
+                "predicted_final_price": round(final_price, 2),
+                "total_growth_percent": round(total_growth, 2),
+                "avg_monthly_growth_percent": round(avg_monthly_growth, 2),
+                "price_volatility": round(price_volatility, 2),
+                "risk_score": round(risk_score, 2),
+                "forecast_months": forecast_months,
+                "predicted_prices": [round(p, 2) for p in predictions]
+            })
+            
+        except Exception as e:
+            print(f"Error calculating performance for {crop}: {str(e)}")
+            continue
+    
+    # Sort by total growth percentage (ascending for bottom performers)
+    performance_data.sort(key=lambda x: x['total_growth_percent'])
+    
+    return performance_data[:bottom_n]
+
+def get_market_analysis(current_month=None, forecast_months=6):
+    """
+    Get comprehensive market analysis including top and bottom performers.
+    
+    Args:
+        current_month (int): Current month (1-12)
+        forecast_months (int): Number of months to forecast
+        
+    Returns:
+        dict: Complete market analysis
+    """
+    if current_month is None:
+        current_month = datetime.now().month
+    
+    # Get all performance data
+    all_forecasts = get_all_crops_forecast(current_month, forecast_months)
+    
+    if not all_forecasts:
+        return {"error": "Could not generate market analysis"}
+    
+    # Calculate market statistics
+    all_growth_rates = []
+    for forecast in all_forecasts:
+        if 'crop_info' in forecast and forecast['crop_info']:
+            current_price = forecast['crop_info']['latest_price']
+            final_price = forecast['predicted_prices'][-1]
+            growth_rate = ((final_price - current_price) / current_price) * 100
+            all_growth_rates.append(growth_rate)
+    
+    market_stats = {
+        "average_growth": round(np.mean(all_growth_rates), 2) if all_growth_rates else 0,
+        "market_volatility": round(np.std(all_growth_rates), 2) if all_growth_rates else 0,
+        "positive_growth_crops": len([g for g in all_growth_rates if g > 0]),
+        "negative_growth_crops": len([g for g in all_growth_rates if g < 0]),
+        "total_crops_analyzed": len(all_growth_rates)
+    }
+    
+    return {
+        "market_overview": market_stats,
+        "top_performers": get_top_performers(current_month, forecast_months, 5),
+        "bottom_performers": get_bottom_performers(current_month, forecast_months, 5),
+        "analysis_period": {
+            "current_month": current_month,
+            "forecast_months": forecast_months,
+            "analysis_date": datetime.now().isoformat()
+        }
+    }

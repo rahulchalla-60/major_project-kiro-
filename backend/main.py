@@ -14,6 +14,9 @@ from forecast import (
     get_forecast_for_crop, 
     get_all_crops_forecast, 
     get_available_crops,
+    get_top_performers,
+    get_bottom_performers,
+    get_market_analysis,
     forecaster
 )
 
@@ -48,7 +51,10 @@ async def root():
             "/crops - Get list of available crops",
             "/predict/{crop_name} - Predict prices for specific crop",
             "/forecast - Get forecasts for all crops",
-            "/crop-info/{crop_name} - Get information about specific crop"
+            "/crop-info/{crop_name} - Get information about specific crop",
+            "/top-performers - Get top 5 performing crops by growth",
+            "/bottom-performers - Get bottom 5 performing crops by growth",
+            "/market-analysis - Get comprehensive market analysis"
         ],
         "total_crops": len(get_available_crops())
     }
@@ -186,6 +192,115 @@ async def health_check():
             "error": str(e),
             "timestamp": datetime.now().isoformat()
         }
+
+@app.get("/top-performers")
+async def get_top_performing_crops(
+    current_month: Optional[int] = Query(None, ge=1, le=12, description="Current month (1-12)"),
+    forecast_months: Optional[int] = Query(6, ge=6, le=12, description="Number of months to forecast (6-12)"),
+    top_n: Optional[int] = Query(5, ge=1, le=10, description="Number of top performers to return (1-10)")
+):
+    """
+    Get top performing crops based on predicted price growth.
+    
+    Args:
+        current_month (int, optional): Current month (1-12). Defaults to current month.
+        forecast_months (int, optional): Number of months to forecast (6-12). Defaults to 6.
+        top_n (int, optional): Number of top performers to return. Defaults to 5.
+    
+    Returns:
+        dict: Top performing crops with growth metrics
+    """
+    try:
+        # Use current month if not provided
+        if current_month is None:
+            current_month = datetime.now().month
+        
+        # Get top performers
+        top_performers = get_top_performers(current_month, forecast_months, top_n)
+        
+        return {
+            "analysis_period": {
+                "current_month": current_month,
+                "forecast_months": forecast_months,
+                "analysis_date": datetime.now().isoformat()
+            },
+            "top_performers_count": len(top_performers),
+            "top_performers": top_performers
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error getting top performers: {str(e)}")
+
+@app.get("/bottom-performers")
+async def get_bottom_performing_crops(
+    current_month: Optional[int] = Query(None, ge=1, le=12, description="Current month (1-12)"),
+    forecast_months: Optional[int] = Query(6, ge=6, le=12, description="Number of months to forecast (6-12)"),
+    bottom_n: Optional[int] = Query(5, ge=1, le=10, description="Number of bottom performers to return (1-10)")
+):
+    """
+    Get bottom performing crops based on predicted price growth.
+    
+    Args:
+        current_month (int, optional): Current month (1-12). Defaults to current month.
+        forecast_months (int, optional): Number of months to forecast (6-12). Defaults to 6.
+        bottom_n (int, optional): Number of bottom performers to return. Defaults to 5.
+    
+    Returns:
+        dict: Bottom performing crops with growth metrics
+    """
+    try:
+        # Use current month if not provided
+        if current_month is None:
+            current_month = datetime.now().month
+        
+        # Get bottom performers
+        bottom_performers = get_bottom_performers(current_month, forecast_months, bottom_n)
+        
+        return {
+            "analysis_period": {
+                "current_month": current_month,
+                "forecast_months": forecast_months,
+                "analysis_date": datetime.now().isoformat()
+            },
+            "bottom_performers_count": len(bottom_performers),
+            "bottom_performers": bottom_performers
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error getting bottom performers: {str(e)}")
+
+@app.get("/market-analysis")
+async def get_comprehensive_market_analysis(
+    current_month: Optional[int] = Query(None, ge=1, le=12, description="Current month (1-12)"),
+    forecast_months: Optional[int] = Query(6, ge=6, le=12, description="Number of months to forecast (6-12)")
+):
+    """
+    Get comprehensive market analysis including top performers, bottom performers, and market statistics.
+    
+    Args:
+        current_month (int, optional): Current month (1-12). Defaults to current month.
+        forecast_months (int, optional): Number of months to forecast (6-12). Defaults to 6.
+    
+    Returns:
+        dict: Complete market analysis with statistics and performance rankings
+    """
+    try:
+        # Use current month if not provided
+        if current_month is None:
+            current_month = datetime.now().month
+        
+        # Get comprehensive market analysis
+        analysis = get_market_analysis(current_month, forecast_months)
+        
+        if "error" in analysis:
+            raise HTTPException(status_code=500, detail=analysis["error"])
+        
+        return analysis
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating market analysis: {str(e)}")
 
 # Run the application
 if __name__ == "__main__":
