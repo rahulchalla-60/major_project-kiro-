@@ -40,21 +40,84 @@
   flex-wrap: wrap;
 }
 
-.location-select {
+.location-input {
   flex: 1;
   min-width: 200px;
   padding: 12px 16px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 1rem;
+  font-weight: 500;
   background: white;
-  transition: border-color 0.2s ease;
+  color: #2c3e50;
+  transition: all 0.2s ease;
 }
 
-.location-select:focus {
+.location-input::placeholder {
+  color: #999;
+  font-weight: 400;
+}
+
+.location-input:focus {
   outline: none;
   border-color: #4facfe;
   box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+  background: #fafbfc;
+}
+
+.location-input:hover {
+  border-color: #c0c0c0;
+}
+
+.location-input:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+
+
+/* Location Status and Error Messages */
+.location-status {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #e3f2fd;
+  border: 1px solid #bbdefb;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-text {
+  font-size: 0.9rem;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.error-message {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-text {
+  font-size: 0.9rem;
+  color: #d32f2f;
+  font-weight: 500;
+}
+
+/* Button disabled state */
+.btn:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Current Weather */
@@ -377,7 +440,7 @@
     align-items: stretch;
   }
   
-  .location-select {
+  .location-input {
     min-width: auto;
   }
 }
