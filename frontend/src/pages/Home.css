@@ -1,0 +1,277 @@
+/* Home Page Styles */
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Crop Selector Section */
+.crop-selector-section {
+  margin-bottom: 32px;
+}
+
+.selector-container {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.searchable-select {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+}
+
+.crop-search-input {
+  width: 100%;
+  padding: 12px 16px 12px 48px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.crop-search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.crop-search-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #666;
+  pointer-events: none;
+}
+
+/* Legacy selector styles for backward compatibility */
+.crop-selector {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  transition: border-color 0.2s ease;
+}
+
+.crop-selector:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Main Grid Layout */
+.main-grid {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.crop-info-section {
+  grid-column: 1 / -1;
+}
+
+.chart-section {
+  grid-column: 1 / -1;
+}
+
+.forecast-table-section {
+  grid-column: 1 / -1;
+}
+
+/* Table Styles */
+.table-container {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+.forecast-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.forecast-table th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.forecast-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s ease;
+}
+
+.forecast-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.forecast-table tbody tr:nth-child(even) {
+  background-color: #fdfdfd;
+}
+
+/* Market Analysis Section */
+.market-analysis-section {
+  margin-bottom: 32px;
+}
+
+/* Quick Actions */
+.quick-actions {
+  margin-bottom: 32px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.action-buttons .btn {
+  flex: 1;
+  min-width: 200px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Error Message */
+.error-message {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+/* Loading States */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 1.2rem;
+  color: #666;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Indicators */
+.status-positive {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.status-negative {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.status-icon {
+  margin-left: 8px;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 16px;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .selector-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .crop-selector {
+    min-width: auto;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons .btn {
+    min-width: auto;
+  }
+  
+  .forecast-table {
+    font-size: 0.85rem;
+  }
+  
+  .forecast-table th,
+  .forecast-table td {
+    padding: 10px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 24px 16px;
+  }
+  
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .forecast-table th,
+  .forecast-table td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
+  }
+}

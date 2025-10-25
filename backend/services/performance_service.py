@@ -5,7 +5,7 @@ Handles top performers, bottom performers, and market analysis calculations.
 
 import numpy as np
 from datetime import datetime
-from .forecast_service import ForecastService
+# Import will be handled in __init__ to avoid circular imports
 
 class PerformanceService:
     """
@@ -17,9 +17,11 @@ class PerformanceService:
         Initialize the performance service.
         
         Args:
-            forecast_service (ForecastService): Forecast service instance
+            forecast_service: Forecast service instance (required)
         """
-        self.forecast_service = forecast_service or ForecastService()
+        if forecast_service is None:
+            raise ValueError("forecast_service is required to avoid circular imports")
+        self.forecast_service = forecast_service
     
     def get_top_performers(self, current_month=None, forecast_months=6, top_n=5):
         """

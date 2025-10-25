@@ -1,0 +1,99 @@
+/* Forecast Chart Styles */
+.chart-container {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 400px;
+  margin-bottom: 24px;
+}
+
+/* Chart Statistics */
+.chart-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Loading State */
+.chart-container .loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 16px;
+    margin: 16px 0;
+  }
+  
+  .chart-wrapper {
+    height: 300px;
+  }
+  
+  .chart-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .stat-item {
+    padding: 10px 12px;
+  }
+  
+  .stat-label,
+  .stat-value {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-wrapper {
+    height: 250px;
+  }
+  
+  .stat-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 4px;
+  }
+}

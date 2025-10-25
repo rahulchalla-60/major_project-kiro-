@@ -4,9 +4,9 @@ Main service layer that coordinates data loading, model training, and prediction
 """
 
 from datetime import datetime
-from ..models.data_loader import CropDataLoader
-from ..models.ml_models import CropPriceMLModel
-from ..models.price_predictor import CropPricePredictor
+from models.data_loader import CropDataLoader
+from models.ml_models import CropPriceMLModel
+from models.price_predictor import CropPricePredictor
 
 class ForecastService:
     """
