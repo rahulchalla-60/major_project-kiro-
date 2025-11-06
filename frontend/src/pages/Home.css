@@ -90,6 +90,63 @@ body {
   pointer-events: none;
 }
 
+/* Dropdown Styles */
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 9998;
+}
+
+.crops-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+
+.crops-list {
+  padding: 0;
+}
+
+.crop-option {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f5f5f5;
+  text-transform: capitalize;
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+.crop-option:hover {
+  background-color: #f8f9fa;
+  color: #667eea;
+}
+
+.crop-option:last-child {
+  border-bottom: none;
+}
+
+.no-crops-message {
+  padding: 16px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
 /* Legacy selector styles for backward compatibility */
 .crop-selector {
   flex: 1;
@@ -160,6 +217,135 @@ body {
 
 .forecast-table tbody tr:nth-child(even) {
   background-color: #fdfdfd;
+}
+
+/* Tabs Container */
+.tabs-container {
+  margin-bottom: 32px;
+}
+
+.tabs-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab-button {
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tab-button:hover {
+  background: #e9ecef;
+  color: #495057;
+  transform: translateY(-1px);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+}
+
+.tab-content {
+  min-height: 400px;
+}
+
+.tab-panel {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Performers Grid */
+.performers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.performer-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.performer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.performer-card.top-performer {
+  border-left: 4px solid #4CAF50;
+  background: linear-gradient(135deg, #f8fff8 0%, #f0f8f0 100%);
+}
+
+.performer-card.bottom-performer {
+  border-left: 4px solid #f44336;
+  background: linear-gradient(135deg, #fff8f8 0%, #fdf0f0 100%);
+}
+
+.performer-rank {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+  min-width: 40px;
+  text-align: center;
+}
+
+.performer-info h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  text-transform: capitalize;
+}
+
+.performer-growth {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.performer-price {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
 }
 
 /* Market Analysis Section */
@@ -266,6 +452,21 @@ body {
   .forecast-table th,
   .forecast-table td {
     padding: 10px 8px;
+  }
+  
+  .tabs-nav {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .tab-button {
+    min-width: 120px;
+    font-size: 0.8rem;
+    padding: 10px 12px;
+  }
+  
+  .performers-grid {
+    grid-template-columns: 1fr;
   }
 }
 
