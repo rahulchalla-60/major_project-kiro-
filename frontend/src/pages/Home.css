@@ -1,8 +1,17 @@
+/* Reset body flexbox for proper page layout */
+body {
+  display: block !important;
+  place-items: unset !important;
+}
+
 /* Home Page Styles */
 .home-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 100vh;
 }
 
 /* Hero Section */
